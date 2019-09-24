@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="127dadf6-25f6-452e-a5a6-956d1777f399" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TTCFresher/Bill.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TTCFresher/Bill.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TTCFresher/Main$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TTCFresher/Main$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TTCFresher/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TTCFresher/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Bill.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Bill.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-    </list>
+    <list default="true" id="127dadf6-25f6-452e-a5a6-956d1777f399" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,8 +14,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="78">
-              <caret line="496" column="22" selection-start-line="496" selection-start-column="22" selection-end-line="496" selection-end-column="22" />
+            <state relative-caret-position="173">
+              <caret line="307" column="19" selection-start-line="307" selection-start-column="16" selection-end-line="307" selection-end-column="19" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#5991#5992#0" expanded="true" />
@@ -67,6 +59,7 @@
       <find>meargeListString</find>
       <find>List&lt;String</find>
       <find>set</find>
+      <find>ob</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -80,7 +73,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="85" />
     <option name="y" value="25" />
     <option name="width" value="1750" />
@@ -115,7 +108,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1569299602086" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1569301504181" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -162,15 +155,15 @@
       <updated>1569204922219</updated>
       <workItem from="1569204925535" duration="21130000" />
       <workItem from="1569290519082" duration="1172000" />
-      <workItem from="1569291932307" duration="7546000" />
+      <workItem from="1569291932307" duration="8837000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="29848000" />
+    <option name="totallyTimeSpent" value="31139000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1066" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2553305" />
@@ -249,8 +242,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="78">
-          <caret line="496" column="22" selection-start-line="496" selection-start-column="22" selection-end-line="496" selection-end-column="22" />
+        <state relative-caret-position="173">
+          <caret line="307" column="19" selection-start-line="307" selection-start-column="16" selection-end-line="307" selection-end-column="19" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#5991#5992#0" expanded="true" />
