@@ -1,8 +1,12 @@
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.time.Period;
+import java.util.stream.Collectors;
 
 public class Main {
     private static Scanner sc = new Scanner(System.in);
@@ -134,11 +138,11 @@ public class Main {
             System.out.println("String: " + formatter.format(reverseDate));
 
             long ts = timestamp.getTime();
-            long min = Math.round(ts / (1000 * 60 * 1.0));
+            long min = getMinitueZero(ts) / (1000 * 60);
             System.out.println("Math round minute: " + min);
-            long hour = Math.round(ts / (1000 * 60 * 60 * 1.0));
+            long hour = getHourZero(ts) / (1000 * 60 * 60);
             System.out.println("Math round hour: " + hour);
-            long day = Math.round(ts / (1000 * 60 * 60 * 24 * 1.0));
+            long day = getDayZero(ts) / (1000 * 60 * 60 * 24);
             System.out.println("Math round day: " + day);
 
         } catch (Exception e) {
@@ -146,40 +150,33 @@ public class Main {
         }
     }
 
+    private static long getMinitueZero(long timeStamp) {
+        return timeStamp - (timeStamp % (1000 * 60));
+    }
+
+    private static long getHourZero(long timeStamp) {
+        return timeStamp - (timeStamp % (1000 * 60 * 60));
+    }
+
+    private static long getDayZero(long timeStamp) {
+        return timeStamp - (timeStamp % (1000 * 60 * 60 * 24));
+    }
+
     private static void compareDate() {
         System.out.print("Input date a (yyyy-MM-dd HH:mm:ss): ");
         String dateStrA = sc.nextLine().trim();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         try {
-            Date dateA = formatter.parse(dateStrA);
+            LocalDate dateA = LocalDate.parse(dateStrA, formatter);
             System.out.print("Input date b (yyyy-MM-dd HH:mm:ss): ");
             String dateStrB = sc.nextLine().trim();
-            Date dateB = formatter.parse(dateStrB);
+            LocalDate dateB = LocalDate.parse(dateStrB, formatter);
 
-            System.out.println("a>b: " + (dateA.after(dateB)));
+            System.out.println("a is after b: " + (dateA.isAfter(dateB)));
 
-            long remainTime = Math.abs(dateA.getTime() - dateB.getTime());
-            long days = TimeUnit.MILLISECONDS.toDays(remainTime);
-            long year = 0, month = 0, day = 0;
-            if (days < 30) {
-                day = days;
-            } else if (days < 30 * 12) {
-                month = days / 30;
-                day = days % 30;
-            } else {
-                year = days / (12 * 30);
-                month = (days - year * 12 * 30) / 12;
-                day = days - year * 12 * 30 - month * 30;
-            }
-            remainTime -= TimeUnit.DAYS.toMillis(days);
-            long hour = TimeUnit.MILLISECONDS.toHours(remainTime);
-            remainTime -= TimeUnit.HOURS.toMillis(hour);
-            long min = TimeUnit.MILLISECONDS.toMinutes(remainTime);
-            remainTime -= TimeUnit.MINUTES.toMillis(min);
-            long sec = TimeUnit.MILLISECONDS.toSeconds(remainTime);
-            String result = year + " year " + month + " month " + day + " day " + hour + " hour " + min + " minute " + sec + " second";
+            Period period = Period.between(dateA, dateB);
+            System.out.println("Remain time: " + period.getYears() + " year " + period.getMonths() + " month " + period.getDays() + " day ");
 
-            System.out.println("Remain time: " + result);
         } catch (Exception e) {
             System.out.println("Wrong Input.");
         }
@@ -196,19 +193,23 @@ public class Main {
 
             Calendar cal = Calendar.getInstance();
             cal.setTime(date);
-            int month = cal.get(Calendar.MONTH) + 1;
-            int year = cal.get(Calendar.YEAR);
 
-            System.out.println("First: " + year + "/" + month + "/01");
-            System.out.println("Last: " + year + "/" + month + "/" + cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+            SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy/MM/dd");
 
-            Calendar cal2 = Calendar.getInstance();
-            cal2.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
-            System.out.println("First day of week: " + cal2.get(Calendar.YEAR) + "/" + (cal2.get(Calendar.MONTH) + 1) + "/" + cal2.get(Calendar.DATE));
+            cal.set(Calendar.DAY_OF_MONTH, 1);
+            System.out.println("First: " + formatter2.format(cal.getTime()));
 
-            Calendar cal3 = cal;
-            cal3.add(Calendar.DATE, 100);
-            System.out.println("After 100 days: " + cal3.get(Calendar.YEAR) + "/" + (cal3.get(Calendar.MONTH) + 1) + "/" + cal3.get(Calendar.DATE));
+            cal.setTime(date);
+            cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+            System.out.println("Last: " + formatter2.format(cal.getTime()));
+
+            cal.setTime(date);
+            cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
+            System.out.println("First day of week: " + formatter2.format(cal.getTime()));
+
+            cal.setTime(date);
+            cal.add(Calendar.DATE, 100);
+            System.out.println("After 100 days: " + formatter2.format(cal.getTime()));
 
         } catch (ParseException e) {
             System.out.println("Wrong Input.");
@@ -279,25 +280,13 @@ public class Main {
             inputStr = sc.nextLine().trim();
             if (inputStr.length() > 0 && !inputStr.equals("N")) strList.add(inputStr);
         }
-        String mergedStr = "";
-        if (strList.size() > 0) {
-            mergedStr = strList.get(0);
-        }
-        for (int i = 1; i < strList.size(); i++) {
-            mergedStr += "," + strList.get(i);
-        }
+
+        String mergedStr = String.join(",", strList);
         System.out.println(mergedStr);
 
-        List<String> reverseStrList = new ArrayList<>();
-        String[] splited = mergedStr.split(",");
-        for (String s : splited) {
-            reverseStrList.add(s);
-        }
-        System.out.println("[");
-        for (String s : reverseStrList) {
-            System.out.println("\t" + s);
-        }
-        System.out.println("]");
+        List<String> reverseStrList = Arrays.asList(mergedStr.split(","));
+
+        System.out.println(reverseStrList);
     }
 
     private static void maxOccurrences() {
@@ -316,24 +305,14 @@ public class Main {
                 }
             }
             if (subLength == 1) {
-                Map.Entry<String, Integer> maxEntry = null;
-                for (Map.Entry<String, Integer> entry : mapStr.entrySet()) {
-                    if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0) {
-                        maxEntry = entry;
-                    }
-                }
-                System.out.println("Max character: " + maxEntry.getKey());
+                Optional<Map.Entry<String, Integer>> maxEntry = mapStr.entrySet().stream().max(Comparator.comparing(Map.Entry::getValue));
+                System.out.println("Max character: " + maxEntry.get().getKey());
             }
         }
 
-        Map.Entry<String, Integer> maxEntry = null;
-        System.out.println("Map:");
-        for (Map.Entry<String, Integer> entry : mapStr.entrySet()) {
-            System.out.println(entry.getKey() + " - " + entry.getValue());
-            if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0) {
-                maxEntry = entry;
-            }
-        }
+        System.out.println("Map: [");
+        mapStr.entrySet().stream().forEach(item -> System.out.println("\t" + item.getKey() + " - " + item.getValue()));
+        System.out.println("]");
     }
 
     private static void findInString() {
@@ -441,85 +420,50 @@ public class Main {
     }
 
     private static void getSetBill(Set<Bill> billSet) {
-        for (Bill b : billSet) {
-            System.out.println(b);
-        }
+        billSet.stream().forEach(System.out::println);
     }
 
     private static void splitBillListByDate2(List<Bill> billList) {
         HashMap<String, List<Bill>> mapDate = filterBillListByDate(billList);
+
+
         List<List<Bill>> billLists = new ArrayList<>();
-        Iterator iterator = mapDate.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry me2 = (Map.Entry) iterator.next();
-            List<Bill> bList = (List<Bill>) me2.getValue();
-            billLists.add(bList);
-        }
-        for (List<Bill> lb : billLists) {
-            System.out.println("[");
-            for (Bill b : lb) {
-                System.out.println("\t" + b);
-            }
-            System.out.println("]");
-        }
+        mapDate.keySet().stream().forEach(item -> billLists.add(mapDate.get(item)));
+
+        System.out.println("[");
+        billLists.stream().forEach(item -> System.out.println("\t" + item));
+        System.out.println("]");
     }
 
     private static void splitBillListByDate(List<Bill> billList) {
         HashMap<String, List<Bill>> mapDate = filterBillListByDate(billList);
-        Iterator iterator = mapDate.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry me2 = (Map.Entry) iterator.next();
-            System.out.println("+++ " + me2.getKey());
-            List<Bill> bList = (List<Bill>) me2.getValue();
-            for (Bill b : bList) {
-                System.out.println(b);
-            }
-        }
+        mapDate.entrySet().stream().forEach(item -> {
+            System.out.println("+++ " + item.getKey());
+            item.getValue().stream().forEach(itemValue -> System.out.println(itemValue));
+        });
     }
 
     private static void getListMoneyOver1m(List<Bill> billList) {
-        List<Bill> over1mBillList = new ArrayList<>();
-        for (Bill b : billList) {
-            if (b.getMoney() > 1000000) {
-                over1mBillList.add(b);
-            }
-        }
-        if (over1mBillList.size() <= 0) {
-            System.out.println("There is no bill has money over 1000000");
-        } else {
-            for (Bill b : over1mBillList) {
-                System.out.println(b);
-            }
-        }
+        billList.stream().filter(bill -> bill.getMoney() > 1000000).forEach(System.out::println);
     }
 
     private static HashMap<String, List<Bill>> filterBillListByDate(List<Bill> billList) {
         HashMap<String, List<Bill>> mapDate = new HashMap<>();
-        for (Bill b : billList) {
-            if (mapDate.get(b.getDate()) == null) {
-                List<Bill> billSameDateList = new ArrayList<>();
-                billSameDateList.add(b);
-                mapDate.put(b.getDate(), billSameDateList);
+        billList.stream().forEach(item -> {
+            if (mapDate.containsKey(item.getDate())) {
+                mapDate.get(item.getDate()).add(item);
             } else {
-                List<Bill> billSameDateList = mapDate.get(b.getDate());
-                billSameDateList.add(b);
-                mapDate.put(b.getDate(), billSameDateList);
+                List<Bill> billSameDateList = new ArrayList<>();
+                billSameDateList.add(item);
+                mapDate.put(item.getDate(), billSameDateList);
             }
-        }
+        });
         return mapDate;
     }
 
     private static void getDistinctDate(List<Bill> billList) {
         HashMap<String, List<Bill>> mapDate = filterBillListByDate(billList);
-        Iterator iterator = mapDate.entrySet().iterator();
-        List<String> dateList = new ArrayList<>();
-        while (iterator.hasNext()) {
-            Map.Entry me2 = (Map.Entry) iterator.next();
-            dateList.add(me2.getKey() + "");
-        }
-        for (String s : dateList) {
-            System.out.println(s);
-        }
+        mapDate.keySet().stream().forEach(System.out::println);
     }
 
     private static void sortByMoney(List<Bill> billList) {
@@ -537,14 +481,12 @@ public class Main {
     }
 
     private static void viewBills(List<Bill> billList) {
-        for (Bill b : billList) {
-            System.out.println(b);
-        }
+        billList.stream().forEach(System.out::println);
     }
 
     private static void addBill(List<Bill> billList, Set<Bill> billSet) {
         System.out.print("Id: ");
-        int id = 0;
+        int id;
         try {
             id = Integer.parseInt(sc.nextLine().trim());
         } catch (Exception e) {
@@ -554,7 +496,7 @@ public class Main {
         System.out.print("Name: ");
         String name = sc.nextLine().trim();
         System.out.print("Money: ");
-        long money = 0;
+        long money;
         try {
             money = Long.parseLong(sc.nextLine().trim());
         } catch (Exception e) {
@@ -581,16 +523,12 @@ public class Main {
     private static void sortArray() {
         System.out.print("Input an integer array (1 2 3 ...): ");
         String arr = sc.nextLine().trim();
-        String[] splited = arr.split(" ");
-        List<Integer> iList = new ArrayList<>();
-        for (String s : splited) {
-            try {
-                int i = Integer.parseInt(s);
-                iList.add(i);
-            } catch (Exception e) {
-                iList = null;
-                break;
-            }
+        List<String> splited = Arrays.asList(arr.split("\\s+"));
+        List<Integer> iList;
+        try {
+            iList = splited.stream().map(Integer::parseInt).collect(Collectors.toList());
+        } catch (Exception e) {
+            iList = null;
         }
         if (iList == null) {
             System.out.println("Wrong input.");

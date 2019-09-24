@@ -39,7 +39,9 @@ public class Bill {
 
     @Override
     public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
         Bill compareBill = (Bill) obj;
-        return this.getId() == compareBill.getId() && this.getName() == compareBill.getName();
+        return id == compareBill.getId() && name.equals(compareBill.getName());
     }
 }
