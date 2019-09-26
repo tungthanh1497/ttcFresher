@@ -14,6 +14,8 @@ public interface TypeFoodContract {
         }
 
         void getFoodByType(OnFinishedListener onFinishedListener, int typeId);
+
+        void searchFood(OnFinishedListener onFinishedListener, String foodName);
     }
 
     interface View {
@@ -30,5 +32,7 @@ public interface TypeFoodContract {
         void onDestroy();
 
         void requestDataFromServer(int typeId);
+
+        void searchFood(String foodName);
     }
 }

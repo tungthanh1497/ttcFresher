@@ -32,6 +32,14 @@ public class TypeFoodPresenter implements TypeFoodContract.Presenter, TypeFoodCo
     }
 
     @Override
+    public void searchFood(String foodName) {
+        if (typeFoodView != null) {
+            typeFoodView.showProgress();
+        }
+        typeFoodModel.searchFood(this, foodName);
+    }
+
+    @Override
     public void onFinished(List<FoodItem> foodList) {
         Log.d(TAG, "onFinished: "+foodList);
         typeFoodView.setDataToRecyclerView(foodList);

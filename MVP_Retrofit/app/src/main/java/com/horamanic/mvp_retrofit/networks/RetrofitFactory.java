@@ -1,6 +1,7 @@
 package com.horamanic.mvp_retrofit.networks;
 
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitFactory {
@@ -14,6 +15,7 @@ public class RetrofitFactory {
     private RetrofitFactory() {
         retrofit = new Retrofit.Builder().baseUrl("http://cookmix.herokuapp.com/")
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
     }
 

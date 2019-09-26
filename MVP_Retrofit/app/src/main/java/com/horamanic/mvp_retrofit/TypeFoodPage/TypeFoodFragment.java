@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -36,6 +37,8 @@ public class TypeFoodFragment extends Fragment implements TypeFoodContract.View,
     ProgressBar pbProgress;
     Button btn1, btn2, btn3, btn4, btn5;
     TypeFoodPresenter presenter;
+    EditText etFoodName;
+    Button btnSearch;
 
     public TypeFoodFragment() {
         // Required empty public constructor
@@ -62,6 +65,7 @@ public class TypeFoodFragment extends Fragment implements TypeFoodContract.View,
         btn3.setOnClickListener(this);
         btn4.setOnClickListener(this);
         btn5.setOnClickListener(this);
+        btnSearch.setOnClickListener(this);
     }
 
     private void initView(View view) {
@@ -79,6 +83,8 @@ public class TypeFoodFragment extends Fragment implements TypeFoodContract.View,
         btn3 = view.findViewById(R.id.btn_3);
         btn4 = view.findViewById(R.id.btn_4);
         btn5 = view.findViewById(R.id.btn_5);
+        etFoodName = view.findViewById(R.id.et_food_name);
+        btnSearch = view.findViewById(R.id.btn_search);
     }
 
     @Override
@@ -118,6 +124,8 @@ public class TypeFoodFragment extends Fragment implements TypeFoodContract.View,
             presenter.requestDataFromServer(4);
         } else if (v == btn5) {
             presenter.requestDataFromServer(5);
+        } else if (v == btnSearch) {
+            presenter.searchFood(etFoodName.getText().toString().trim());
         }
     }
 

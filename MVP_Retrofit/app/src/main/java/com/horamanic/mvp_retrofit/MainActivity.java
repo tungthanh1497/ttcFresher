@@ -8,11 +8,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.horamanic.mvp_retrofit.GithubAPIPage.GithubAPIFragment;
 import com.horamanic.mvp_retrofit.TypeFoodPage.TypeFoodFragment;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button btnOpen;
+    Button btnOpen, btnGithub;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,10 +26,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void registerListener() {
         btnOpen.setOnClickListener(this);
+        btnGithub.setOnClickListener(this);
     }
 
     private void initView() {
         btnOpen = findViewById(R.id.btn_open);
+        btnGithub = findViewById(R.id.btn_git);
     }
 
     @Override
@@ -37,6 +40,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
             ft.replace(R.id.rl_container, new TypeFoodFragment());
+            ft.addToBackStack(null);
+            ft.commit();
+        } else if (v == btnGithub) {
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.replace(R.id.rl_container, new GithubAPIFragment());
             ft.addToBackStack(null);
             ft.commit();
         }
